@@ -6,9 +6,17 @@ const server = jsonServer.create();
 const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
 
+// Middleware to add 2-second delay to all requests
+const delayMiddleware = (req, res, next) => {
+  setTimeout(() => {
+    next();
+  }, 500); // 2 seconds delay
+};
+
 // Middleware to parse JSON bodies
 server.use(jsonServer.bodyParser);
 server.use(middlewares);
+server.use(delayMiddleware);
 
 // Use authentication routes
 server.use("/", authRoutes);
@@ -30,26 +38,7 @@ server.get("/auth/profile", authenticateToken, (req, res) => {
 server.use("/api", router);
 
 // Start server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
   console.log(`🚀 JSON Server is running on http://localhost:${PORT}`);
-  console.log("📋 Available routes:");
-  console.log("  POST /login          - Login with username/password");
-  console.log("  POST /register       - Register new user");
-  console.log("  GET  /auth/profile   - Get user profile (requires token)");
-  console.log("  GET  /api/users      - Get all users");
-  console.log("  GET  /api/posts      - Get all posts");
-  console.log("  GET  /api/comments   - Get all comments");
-  console.log("");
-  console.log("💡 Test credentials:");
-  console.log("  Username: admin");
-  console.log("  Password: 123123");
-  console.log("  Username: user");
-  console.log("  Password: 123123");
-  console.log("");
-  console.log("📁 Authentication files:");
-  console.log("  auth/authController.js - Login/Register handlers");
-  console.log("  auth/authMiddleware.js - JWT verification middleware");
-  console.log("  auth/authUtils.js      - Helper functions");
-  console.log("  auth/authRoutes.js     - Route definitions");
 });

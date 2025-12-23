@@ -26,6 +26,8 @@ const generateToken = (user) => {
     username: user.username,
     name: user.name,
     role: user.role,
+    senders: user.senders || null,
+    createdAt: new Date().toISOString(),
   };
   return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 };
@@ -42,6 +44,17 @@ const saveUserToDb = (newUser) => {
   return newUser;
 };
 
+// Helper function to get all users
+const getAllUsers = () => {
+  return getUsersDb();
+};
+
+// Helper function to find user by ID
+const findUserById = (id) => {
+  const users = getUsersDb();
+  return users.find((user) => user.id === parseInt(id));
+};
+
 module.exports = {
   JWT_SECRET,
   JWT_EXPIRES_IN,
@@ -49,4 +62,6 @@ module.exports = {
   findUserByUsername,
   generateToken,
   saveUserToDb,
+  getAllUsers,
+  findUserById,
 };

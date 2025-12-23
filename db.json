@@ -3,16 +3,117 @@
     {
       "id": 1,
       "username": "admin",
-      "password": "123123",
-      "name": "Admin User",
-      "role": "admin"
+      "password": "123123Aa@",
+      "name": "admin",
+      "role": "USER",
+      "senders": [
+        {
+          "createdAt": "2023-01-01T00:00:00Z",
+          "updatedAt": "2023-01-15T00:00:00Z",
+          "id": "sender1",
+          "senderMail": "sender1@example.com",
+          "status": true,
+          "domain": "example.com"
+        },
+        {
+          "createdAt": "2023-01-02T00:00:00Z",
+          "updatedAt": "2023-01-16T00:00:00Z",
+          "id": "sender2",
+          "senderMail": "sender2@test.org",
+          "status": false,
+          "domain": null
+        },
+        {
+          "id": "sender3",
+          "senderMail": "sender3@example.com",
+          "status": true,
+          "domain": "loremloremloremloremloremloremloremloremloremloremloremlorem.com",
+          "createdAt": "2025-10-02T09:03:47.829Z",
+          "updatedAt": "2025-10-02T09:03:47.829Z"
+        },
+        {
+          "id": "1",
+          "senderMail": "1@example.com",
+          "status": true,
+          "domain": "loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem.com",
+          "createdAt": "2025-10-05T17:18:58.711Z",
+          "updatedAt": "2025-10-05T17:18:58.711Z"
+        },
+        {
+          "id": "newsender123",
+          "senderMail": "newsender123@example.com",
+          "status": true,
+          "domain": "loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem.com",
+          "createdAt": "2025-11-04T10:40:35.027Z",
+          "updatedAt": "2025-11-04T10:40:35.027Z"
+        }
+      ],
+      "email": ""
     },
     {
       "id": 2,
       "username": "user",
       "password": "123123",
       "name": "Regular User",
-      "role": "user"
+      "role": "user",
+      "senders": [
+        {
+          "id": "newsender123",
+          "senderMail": "newsender123@example.com",
+          "status": true,
+          "domain": "example.com",
+          "createdAt": "2025-10-02T09:03:01.208Z",
+          "updatedAt": "2025-10-02T09:03:01.211Z"
+        },
+        {
+          "id": "sender1",
+          "senderMail": "sender1@example.com",
+          "status": true,
+          "domain": "loremloremloremloremloremloremloremloremloremloremloremloremloremloremloremloremlorem.com",
+          "createdAt": "2025-10-07T09:54:37.537Z",
+          "updatedAt": "2025-10-07T09:54:37.537Z"
+        }
+      ]
+    },
+    {
+      "id": 1759242004527,
+      "username": "testuser",
+      "password": "password123",
+      "name": "Test User",
+      "role": "user",
+      "senders": null
+    },
+    {
+      "id": 1759242040242,
+      "username": "testuser01",
+      "password": "password123",
+      "name": "Test User22",
+      "role": "user",
+      "senders": null
+    },
+    {
+      "id": 1759242457490,
+      "username": "admin001",
+      "password": "123123Aa@",
+      "name": "admin001",
+      "role": "ADMIN",
+      "senders": null
+    },
+    {
+      "id": 1759242484863,
+      "username": "newuser123",
+      "password": "password123",
+      "name": "newuser123",
+      "role": "user",
+      "senders": null
+    },
+    {
+      "id": 1759244207328,
+      "username": "admin03",
+      "password": "W1231233",
+      "name": "admin03",
+      "role": "ADMIN",
+      "senders": null
     }
   ],
   "posts": [

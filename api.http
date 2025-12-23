@@ -1,0 +1,222 @@
+### REST Client Tests for Fake Server
+### Base URL
+@baseUrl = http://localhost:3001
+
+### Variables
+@adminToken = {{loginAdmin.response.body.jwt}}
+@userToken = {{loginUser.response.body.jwt}}
+
+### ===========================================
+### Authentication Routes
+### ===========================================
+
+### Login as Admin
+# @name loginAdmin
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "123123"
+}
+
+### Login as Regular User
+# @name loginUser
+POST {{baseUrl}}/user/login
+Content-Type: application/json
+{
+  "username": "user",
+  "password": "123123"
+}
+
+### Register New User
+POST {{baseUrl}}/register
+Content-Type: application/json
+{
+  "username": "newuser",
+  "password": "password123",
+  "name": "New User"
+}
+
+### Get User Profile (Requires Token)
+GET {{baseUrl}}/profile
+Authorization: Bearer {{adminToken}}
+
+### ===========================================
+### Admin Routes (No Auth Required)
+### ===========================================
+
+### Get All Users (Paginated)
+GET {{baseUrl}}/admin/user
+
+### Get All Users with Pagination Parameters
+GET {{baseUrl}}/admin/user?page=1&limit=5
+
+### Create New User (Admin Route)
+POST {{baseUrl}}/admin/user
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "role": "user",
+  "password": "password123"
+}
+
+### Create New Admin User
+POST {{baseUrl}}/admin/user
+Content-Type: application/json
+
+{
+  "username": "newadmin",
+  "role": "admin",
+  "password": "admin123"
+}
+
+### Create User with Missing Fields (Should fail)
+POST {{baseUrl}}/admin/user
+Content-Type: application/json
+
+{
+  "username": "incomplete",
+  "role": "user"
+}
+
+### Create Duplicate User (Should fail)
+POST {{baseUrl}}/admin/user
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "role": "admin",
+  "password": "password123"
+}
+
+### Get User by ID (Admin User - has senders)
+# Expected response: {id: "1", role: "admin", user: "admin", sender: [{id: "sender1"}, {id: "sender2"}]}
+GET {{baseUrl}}/admin/user/1
+
+### Get User by ID (Regular User - no senders)
+# Expected response: {id: "2", role: "user", user: "user", sender: []}
+GET {{baseUrl}}/admin/user/2
+
+### Get Non-existent User (404 Test)
+GET {{baseUrl}}/admin/user/999
+
+### Change User Password
+PUT {{baseUrl}}/admin/user/change-password
+Content-Type: application/json
+
+{
+  "userId": "1",
+  "password": "newpassword123"
+}
+
+### Change Password for Regular User
+PUT {{baseUrl}}/admin/user/change-password
+Content-Type: application/json
+
+{
+  "userId": "2",
+  "password": "updatedpassword456"
+}
+
+### Change Password with Missing Fields (Should fail)
+PUT {{baseUrl}}/admin/user/change-password
+Content-Type: application/json
+
+{
+  "userId": "1"
+}
+
+### Change Password for Non-existent User (Should fail)
+PUT {{baseUrl}}/admin/user/change-password
+Content-Type: application/json
+
+{
+  "userId": "999",
+  "password": "somepassword"
+}
+
+### Add Sender to User
+POST {{baseUrl}}/admin/user/add-sender
+Content-Type: application/json
+
+{
+  "userId": "1",
+  "senderId": "sender3"
+}
+
+### Add Sender to Regular User (User ID 2)
+POST {{baseUrl}}/admin/user/add-sender
+Content-Type: application/json
+
+{
+  "userId": "2",
+  "senderId": "sender1"
+}
+
+### Add Sender with Missing Fields (Should fail)
+POST {{baseUrl}}/admin/user/add-sender
+Content-Type: application/json
+
+{
+  "userId": "1"
+}
+
+### Add Sender to Non-existent User (Should fail)
+POST {{baseUrl}}/admin/user/add-sender
+Content-Type: application/json
+
+{
+  "userId": "999",
+  "senderId": "sender4"
+}
+
+### Add Duplicate Sender (Should fail)
+POST {{baseUrl}}/admin/user/add-sender
+Content-Type: application/json
+
+{
+  "userId": "1",
+  "senderId": "sender1"
+}
+
+### Get Senders by Domain
+GET {{baseUrl}}/admin/sender/byDomain?domainId=example.com
+
+### Get Senders by Domain with Pagination
+GET {{baseUrl}}/admin/sender/byDomain?domainId=example.com&size=5&index=0
+
+### Get Senders by Domain (Page 2)
+GET {{baseUrl}}/admin/sender/byDomain?domainId=example.com&size=2&index=2
+
+### Get Senders by Non-existent Domain
+GET {{baseUrl}}/admin/sender/byDomain?domainId=nonexistent.com
+
+### Get Senders without Domain Parameter (Should fail)
+GET {{baseUrl}}/admin/sender/byDomain
+
+### Search All Domains
+GET {{baseUrl}}/admin/domain/search
+
+### Search Domains with Pagination
+GET {{baseUrl}}/admin/domain/search?size=5&index=0
+
+### Search Domains (Page 2)
+GET {{baseUrl}}/admin/domain/search?size=2&index=2
+
+### Search Domains with Custom Page Size
+GET {{baseUrl}}/admin/domain/search?size=1&index=0
+
+### Get Domain by ID
+GET {{baseUrl}}/admin/domain/example.com
+
+### Get Non-existent Domain (Should fail)
+GET {{baseUrl}}/admin/domain/nonexistent.com
+
+### Profile without Token (Should fail)
+GET {{baseUrl}}/profile
+
+### Profile with Invalid Token
+GET {{baseUrl}}/profile
+Authorization: Bearer invalid.token.here
